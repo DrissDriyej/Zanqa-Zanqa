@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3372b7490384c0844a3b4e62f302ddde
+timeCreated: 1488300461
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Floor.prefab
+  uploadId: 617766

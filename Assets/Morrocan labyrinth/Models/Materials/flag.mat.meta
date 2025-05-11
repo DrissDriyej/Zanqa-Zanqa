@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7c37808dbaa801b4da2b8605baf1be2e
+timeCreated: 1488293346
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/flag.mat
+  uploadId: 617766

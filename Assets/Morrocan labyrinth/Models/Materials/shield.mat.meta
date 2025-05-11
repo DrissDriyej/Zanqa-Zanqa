@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ac18fbf42643b954f922887e109df675
+timeCreated: 1474572725
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/shield.mat
+  uploadId: 617766

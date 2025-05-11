@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: cc4347574b823934ba11785e25895920
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Particles/Shaders/PriorityParticleAlpha.shader
+  uploadId: 617766

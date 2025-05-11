@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 648a0fb6ec317f54f8dc938857ff589e
+timeCreated: 1488281254
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/chest.mat
+  uploadId: 617766

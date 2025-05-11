@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0afc83c48ade7f048a5a2dfcffd6a0bc
+timeCreated: 1488300662
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Spear.prefab
+  uploadId: 617766

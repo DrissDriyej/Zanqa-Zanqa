@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e41d65adbd7afdb41b1f784b52047438
+timeCreated: 1488299822
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Chest.prefab
+  uploadId: 617766

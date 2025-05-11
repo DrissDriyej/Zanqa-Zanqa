@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5d523a9f1bb83f6409275c5cfabf59e2
+timeCreated: 1474371875
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/stone.mat
+  uploadId: 617766

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 2e6376da6f33a9544935b3063f95dae0
+timeCreated: 1511458927
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/Leaves.mat
+  uploadId: 617766

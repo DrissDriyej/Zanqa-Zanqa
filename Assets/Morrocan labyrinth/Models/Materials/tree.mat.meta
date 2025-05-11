@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c24a21239c5886d4c8d0f23ba6ba763c
+timeCreated: 1488135642
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/tree.mat
+  uploadId: 617766

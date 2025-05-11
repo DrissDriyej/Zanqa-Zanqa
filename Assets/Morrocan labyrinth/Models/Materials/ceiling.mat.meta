@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 34310914548e4444eaaabd0317ab6240
+timeCreated: 1474534563
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/ceiling.mat
+  uploadId: 617766

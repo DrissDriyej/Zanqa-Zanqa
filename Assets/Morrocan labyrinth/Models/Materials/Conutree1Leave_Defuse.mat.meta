@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 36be15d109f1b63439a9f3ff1a555b14
+timeCreated: 1511457366
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/Conutree1Leave_Defuse.mat
+  uploadId: 617766

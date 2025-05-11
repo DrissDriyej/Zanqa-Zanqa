@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 10358e779898e9d4faf81157b9909fdb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/NewLayer.terrainlayer
+  uploadId: 617766

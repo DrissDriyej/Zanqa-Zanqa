@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1c4298cd35ef7834e892898e49d61ecd
+timeCreated: 1461756159
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/PostProcessing/Editor Resources/Monitors/VectorscopeRender.shader
+  uploadId: 617766

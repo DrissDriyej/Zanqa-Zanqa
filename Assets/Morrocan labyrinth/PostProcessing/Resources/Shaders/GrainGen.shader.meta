@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 11852d1b1b034654bb03e7c8fda28fbf
+timeCreated: 1476347976
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/PostProcessing/Resources/Shaders/GrainGen.shader
+  uploadId: 617766

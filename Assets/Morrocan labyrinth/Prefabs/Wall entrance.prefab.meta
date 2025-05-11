@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 159a1de302e0d62458c62ef16ee6afb1
+timeCreated: 1488300693
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Wall entrance.prefab
+  uploadId: 617766

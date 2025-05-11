@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d1f0687e1bfafab4fb7e728a266ba3a1
+timeCreated: 1488300520
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Obelisk.prefab
+  uploadId: 617766

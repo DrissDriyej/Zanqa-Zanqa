@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b16d701e937888c4fa27032632cf54c2
+timeCreated: 1474652899
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Models/Materials/gold.mat
+  uploadId: 617766

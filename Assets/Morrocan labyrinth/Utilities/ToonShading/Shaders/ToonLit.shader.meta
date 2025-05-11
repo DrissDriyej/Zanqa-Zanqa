@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 48dca5b99d113b8d11006bab44295342
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Utilities/ToonShading/Shaders/ToonLit.shader
+  uploadId: 617766

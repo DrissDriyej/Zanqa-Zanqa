@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bf89ea0f38b5b20409eda3ab29b1764d
+timeCreated: 1488300642
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Shield.prefab
+  uploadId: 617766

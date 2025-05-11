@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cec78b87b768bb4418c9ee63f0c6f4ae
+timeCreated: 1488300509
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Maze.prefab
+  uploadId: 617766

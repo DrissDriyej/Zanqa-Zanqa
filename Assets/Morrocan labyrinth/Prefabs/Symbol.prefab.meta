@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ac6542043ebb11f4b9dd253890bffcf9
+timeCreated: 1488300679
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Symbol.prefab
+  uploadId: 617766

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3db141505ab93d543ab870167e5fe8a2
+timeCreated: 1488299895
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/Prefabs/Column1.prefab
+  uploadId: 617766

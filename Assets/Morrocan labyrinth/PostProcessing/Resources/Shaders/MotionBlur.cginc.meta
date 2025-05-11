@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c83956915580e42489479d2a109470ab
+timeCreated: 1470404606
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84280
+  packageName: Egyptian Labyrinth
+  packageVersion: 1.2
+  assetPath: Assets/Egyptian labyrinth/PostProcessing/Resources/Shaders/MotionBlur.cginc
+  uploadId: 617766
