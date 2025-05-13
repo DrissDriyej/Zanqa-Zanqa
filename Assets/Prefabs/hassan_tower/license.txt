@@ -1,0 +1,11 @@
+Model Information:
+* title:	hassan tower
+* source:	https://sketchfab.com/3d-models/hassan-tower-494bf9609656431d878c57a186f44070
+* author:	zeroual.elmehdi (https://sketchfab.com/zeroual.elmehdi)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "hassan tower" (https://sketchfab.com/3d-models/hassan-tower-494bf9609656431d878c57a186f44070) by zeroual.elmehdi (https://sketchfab.com/zeroual.elmehdi) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
