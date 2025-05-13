@@ -1,0 +1,11 @@
+Model Information:
+* title:	Islamic arch
+* source:	https://sketchfab.com/3d-models/islamic-arch-26eb4c80afe24a859b9525ed21b4be7e
+* author:	ramihalawi12 (https://sketchfab.com/ramihalawi12)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Islamic arch" (https://sketchfab.com/3d-models/islamic-arch-26eb4c80afe24a859b9525ed21b4be7e) by ramihalawi12 (https://sketchfab.com/ramihalawi12) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

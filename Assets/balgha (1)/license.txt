@@ -1,0 +1,11 @@
+Model Information:
+* title:	balgha
+* source:	https://sketchfab.com/3d-models/balgha-d1d1efea3f354a08b7dde9ce27ea3065
+* author:	zeroual.elmehdi (https://sketchfab.com/zeroual.elmehdi)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "balgha" (https://sketchfab.com/3d-models/balgha-d1d1efea3f354a08b7dde9ce27ea3065) by zeroual.elmehdi (https://sketchfab.com/zeroual.elmehdi) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
