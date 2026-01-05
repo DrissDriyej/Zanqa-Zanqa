@@ -203,13 +203,35 @@ Shader "Custom/RayMarchFogURP"
                 // Dithering
                 float dither = frac(sin(dot(uv.xy, float2(12.9898, 78.233))) * 43758.5453);
                 
+                // --- WEATHER SYSTEM (FOG WAVES) ---
+                // Modulate global density over time
+                // Cycle duration approx 20-30 seconds
+                // Shift phase by -1.6 (approx -PI/2) to start at -1 (Minimum/Clear)
+                float weatherCycle = sin(_Time.y * 0.2 - 1.6); 
+                weatherCycle = weatherCycle * 0.5 + 0.5; // 0 to 1
+                
+                // Make it sparse: Fog only appears 50% of the time
+                // Remap: 0..1 -> -0.5 .. 1.0 clamped to 0..1?
+                // Let's keep it simple: Smooth oscillation
+                
+                float globalDensityMod = smoothstep(0.2, 0.8, weatherCycle); 
+                // Result: Clear -> Fade In -> Thick -> Fade Out -> Clear
+
+                // --- OPTIMIZATION & LOGIC ---
+                // Check if density is too low to bother rendering
+                if (globalDensityMod < 0.01)
+                {
+                    return float4(sceneColor.rgb, 1.0);
+                }
+                // -----------------------------
+
                 // Ray march
                 float t = 1.0 + dither * _StepSize;
                 float transmittance = 1.0;
                 float3 fogAccum = float3(0, 0, 0);
                 
-                // Animation speed for heat effect (scrolling noise upwards)
-                float3 animOffset = float3(0, -_Time.y * 2.0, 0); // Noise moves up = heat rises
+                // Animation speed for heat effect (scrolling noise)
+                float3 animOffset = float3(0, -_Time.y * 2.0, 0); 
                 
                 [loop]
                 for (int step = 0; step < 32; step++)
@@ -219,25 +241,22 @@ Shader "Custom/RayMarchFogURP"
                     
                     float3 pos = rayOrigin + rayDir * t;
                     
-                    // Check zone mask
-                    float labyrinthMask = getLabyrinthMask(pos);
+                    // Height-based density
+                    float heightFactor = exp(-max(0, pos.y - _FogHeight) * _FogFalloff);
+                        
+                    // Animated Noise
+                    float n = fbm((pos + animOffset) * _NoiseScale);
+                        
+                    float noiseFactor = 0.4 + n * 0.6;
                     
-                    if (labyrinthMask > 0.01)
+                    // Final density: Base * Height * Noise * TIME(Weather)
+                    float density = _Density * heightFactor * noiseFactor * globalDensityMod;
+                        
+                    if (density > 0.0001)
                     {
-                        float heightFactor = exp(-max(0, pos.y - _FogHeight) * _FogFalloff);
-                        
-                        // Animated Noise for Heat Effect
-                        float n = fbm((pos + animOffset) * _NoiseScale);
-                        
-                        float noiseFactor = 0.4 + n * 0.6;
-                        float density = _Density * heightFactor * noiseFactor * labyrinthMask;
-                        
-                        if (density > 0.0001)
-                        {
-                            float stepAtten = exp(-density * _StepSize);
-                            fogAccum += _FogColor.rgb * (1.0 - stepAtten) * transmittance;
-                            transmittance *= stepAtten;
-                        }
+                        float stepAtten = exp(-density * _StepSize);
+                        fogAccum += _FogColor.rgb * (1.0 - stepAtten) * transmittance;
+                        transmittance *= stepAtten;
                     }
                     
                     t += _StepSize;

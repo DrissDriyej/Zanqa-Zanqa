@@ -14,6 +14,11 @@ Shader "Custom/WaterPBR"
         _NormalScale ("Normal Scale", Range(0, 2)) = 1.0
         _WaveSpeed ("Wave Speed", Vector) = (0.1, 0.1, -0.1, 0.1)
 
+        [Header(Physics Waves)]
+        _WaveAmplitude ("Wave Amplitude", Range(0, 1)) = 0.1
+        _WaveFrequency ("Wave Frequency", Range(0, 10)) = 1.0
+        _WaveSteepness ("Wave Steepness", Range(0, 1)) = 0.2
+
         [Header(Depth and Refraction)]
         _DepthDistance ("Depth Distance", Range(0.1, 10)) = 2.0
         _RefractionStrength ("Refraction Strength", Range(0, 1)) = 0.5
@@ -82,7 +87,7 @@ Shader "Custom/WaterPBR"
                 float4 _DeepColor;
                 float _Smoothness;
                 float _Metallic;
-                float4 _NormalMap_ST; // Tiling/Offset
+                float4 _NormalMap_ST;
                 float _NormalScale;
                 float4 _WaveSpeed;
                 float _DepthDistance;
@@ -90,6 +95,11 @@ Shader "Custom/WaterPBR"
                 float4 _FoamColor;
                 float _FoamDistance;
                 float _FoamCutoff;
+                
+                // Physics Waves properties
+                float _WaveAmplitude;
+                float _WaveFrequency;
+                float _WaveSteepness;
             CBUFFER_END
 
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
@@ -120,12 +130,65 @@ Shader "Custom/WaterPBR"
             }
             // -----------------------
 
+            // Gerstner Wave Calculation
+            float3 GerstnerWave(float3 position, float steepness, float wavelength, float speed, float2 direction, inout float3 tangent, inout float3 binormal)
+            {
+                direction = normalize(direction);
+                float k = 2.0 * 3.14159 / wavelength;
+                float f = k * (dot(direction, position.xz) - speed * _Time.y);
+                float a = steepness / k;
+                
+                // Derivatives
+                float wa = k * a; // steepness
+                float s = sin(f);
+                float c = cos(f);
+                
+                // Displacement
+                float3 p = float3(
+                    direction.x * (a * c),
+                    a * s,
+                    direction.y * (a * c)
+                );
+                
+                // Normals modification
+                float wa_c = wa * c; // derivative component
+                float wa_s = wa * s; // derivative component
+                
+                tangent += float3(
+                    -direction.x * direction.x * wa_s,
+                    direction.x * wa_c,
+                    -direction.x * direction.y * wa_s
+                );
+                
+                binormal += float3(
+                    -direction.x * direction.y * wa_s,
+                    direction.y * wa_c,
+                    -direction.y * direction.y * wa_s
+                );
+                
+                return p;
+            }
+
             Varyings Vert(Attributes input)
             {
                 Varyings output;
-                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-                output.positionWS = TransformObjectToWorld(input.positionOS.xyz);
-                output.normalWS = TransformObjectToWorldNormal(input.normalOS);
+                float3 gridPoint = input.positionOS.xyz;
+                float3 tangent = float3(1, 0, 0);
+                float3 binormal = float3(0, 0, 1);
+                
+                // Sum waves
+                float3 p = gridPoint;
+                
+                // Wave 1
+                p += GerstnerWave(gridPoint, _WaveSteepness, 10.0/_WaveFrequency, 1.0, float2(1, 0.5), tangent, binormal);
+                // Wave 2
+                p += GerstnerWave(gridPoint, _WaveSteepness * 0.5, 5.0/_WaveFrequency, 1.2, float2(0.7, 1.0), tangent, binormal);
+
+                float3 finalNormal = normalize(cross(binormal, tangent));
+                
+                output.positionCS = TransformObjectToHClip(p);
+                output.positionWS = TransformObjectToWorld(p);
+                output.normalWS = TransformObjectToWorldNormal(finalNormal); // Use calculated wave normal
                 output.viewDirWS = GetWorldSpaceNormalizeViewDir(output.positionWS);
                 output.screenPos = ComputeScreenPos(output.positionCS);
                 output.uv = input.uv;
@@ -134,6 +197,7 @@ Shader "Custom/WaterPBR"
 
             // Blended Normal Mapping
             float3 SampleNormals(float2 uv, float3 positionWS)
+
             {
                 // Animation logic
                 float2 uv1 = uv + _Time.y * _WaveSpeed.xy;
