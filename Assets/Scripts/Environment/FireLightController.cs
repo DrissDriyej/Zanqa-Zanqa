@@ -11,11 +11,18 @@ public class FireLightController : MonoBehaviour
     public float flickerSpeed = 10.0f;
     public float flickerAmount = 0.5f;
 
+    [Header("Particles (Embers)")]
+    public bool enableParticles = true;
+    public int particleCount = 20;
+    public Color emberVertexColor = new Color(1f, 0.6f, 0.4f, 1f);
+
     private Light fireLight;
+    private ParticleSystem fireParticles;
     private float initialBaseIntensity;
 
     void Start()
     {
+        // 1. Setup Light
         // Essayer de récupérer la lumière sur cet objet ou ses enfants
         fireLight = GetComponent<Light>();
         if (fireLight == null)
@@ -33,10 +40,62 @@ public class FireLightController : MonoBehaviour
             fireLight.shadows = LightShadows.Soft;
         }
 
-        // Appliquer les réglages initiaux
+        // Apply settings
         fireLight.range = maxRange;
         initialBaseIntensity = baseIntensity;
         fireLight.intensity = baseIntensity;
+
+        // 2. Setup Particles (Embers)
+        if (enableParticles)
+        {
+            fireParticles = GetComponent<ParticleSystem>();
+            if (fireParticles == null) fireParticles = gameObject.AddComponent<ParticleSystem>();
+            
+            // Main Module
+            var main = fireParticles.main;
+            main.startColor = emberVertexColor;
+            main.startSize = new ParticleSystem.MinMaxCurve(0.05f, 0.15f);
+            main.startSpeed = new ParticleSystem.MinMaxCurve(0.5f, 1.5f);
+            main.startLifetime = new ParticleSystem.MinMaxCurve(1.0f, 2.0f);
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.loop = true;
+            
+            // Emission
+            var emission = fireParticles.emission;
+            emission.enabled = true;
+            emission.rateOverTime = particleCount;
+
+            // Shape (Cone qui monte)
+            var shape = fireParticles.shape;
+            shape.enabled = true;
+            shape.shapeType = ParticleSystemShapeType.Cone;
+            shape.angle = 10f;
+            shape.radius = 0.2f;
+            shape.rotation = new Vector3(-90, 0, 0); // Upwards
+
+            // Velocity over Lifetime (un peu de vent/bougeotte)
+            var vel = fireParticles.velocityOverLifetime;
+            vel.enabled = true;
+            vel.x = new ParticleSystem.MinMaxCurve(-0.5f, 0.5f);
+            vel.z = new ParticleSystem.MinMaxCurve(-0.5f, 0.5f);
+
+            // Size over Lifetime (ça rétrécit)
+            var sz = fireParticles.sizeOverLifetime;
+            sz.enabled = true;
+            AnimationCurve curve = new AnimationCurve();
+            curve.AddKey(0.0f, 1.0f);
+            curve.AddKey(1.0f, 0.0f);
+            sz.size = new ParticleSystem.MinMaxCurve(1.0f, curve);
+
+            // Renderer
+            var renderer = fireParticles.GetComponent<ParticleSystemRenderer>();
+            renderer.renderMode = ParticleSystemRenderMode.Billboard;
+            renderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended"));
+            // Utiliser une texture par défaut si possible, ou laisser le carré blanc "style low poly" si null
+            Texture2D defaultTex = Resources.GetBuiltinResource<Texture2D>("Default-Particle.psd");
+            if (defaultTex != null) renderer.material.mainTexture = defaultTex;
+            renderer.material.SetColor("_TintColor", emberVertexColor);
+        }
     }
 
     void Update()

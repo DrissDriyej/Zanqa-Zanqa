@@ -109,6 +109,20 @@ public class SimpleCharacterInteraction : MonoBehaviour
             instructionCanvas.gameObject.SetActive(false);
         }
         
+        // Lancer les confettis
+        if (playerTransform != null)
+        {
+            SpawnConfetti(playerTransform.position + Vector3.up * 5f);
+        }
+
+        // Lancer la séquence de fin avec délai
+        StartCoroutine(VictoryDelay());
+    }
+
+    private System.Collections.IEnumerator VictoryDelay()
+    {
+        yield return new WaitForSeconds(3.0f);
+
         // Afficher le menu de victoire
         if (victoryCanvas != null)
         {
@@ -122,6 +136,59 @@ public class SimpleCharacterInteraction : MonoBehaviour
         // Débloquer la souris
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void SpawnConfetti(Vector3 position)
+    {
+        GameObject confettiObj = new GameObject("VictoryConfetti");
+        confettiObj.transform.position = position;
+        
+        ParticleSystem ps = confettiObj.AddComponent<ParticleSystem>();
+        
+        // 1. Main
+        var main = ps.main;
+        main.startLifetime = 5f;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(2f, 5f);
+        main.startSize = new ParticleSystem.MinMaxCurve(0.1f, 0.3f);
+        main.startColor = new ParticleSystem.MinMaxGradient(Color.red, Color.yellow); 
+        main.gravityModifier = 0.5f;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        
+        // 2. Emission
+        var emission = ps.emission;
+        emission.rateOverTime = 0; 
+        emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, 100) }); 
+        
+        // 3. Shape
+        var shape = ps.shape;
+        shape.shapeType = ParticleSystemShapeType.Box;
+        shape.scale = new Vector3(5, 1, 5);
+        
+        // 4. Color over Lifetime
+        var col = ps.colorOverLifetime;
+        col.enabled = true;
+        Gradient grad = new Gradient();
+        grad.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(Color.red, 0.0f), new GradientColorKey(Color.blue, 0.33f), new GradientColorKey(Color.green, 0.66f), new GradientColorKey(Color.yellow, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) }
+        );
+        col.color = grad;
+
+        // 5. Rotation
+        var rot = ps.rotationOverLifetime;
+        rot.enabled = true;
+        rot.x = new ParticleSystem.MinMaxCurve(0, 360);
+        rot.y = new ParticleSystem.MinMaxCurve(0, 360);
+        rot.z = new ParticleSystem.MinMaxCurve(0, 360);
+        
+        // 6. Renderer
+        var renderer = ps.GetComponent<ParticleSystemRenderer>();
+        renderer.renderMode = ParticleSystemRenderMode.Billboard;
+        renderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended"));
+        Texture2D defaultTex = Resources.GetBuiltinResource<Texture2D>("Default-Particle.psd");
+        if (defaultTex != null) renderer.material.mainTexture = defaultTex;
+        
+        ps.Play();
     }
     
     private void OnDrawGizmosSelected()

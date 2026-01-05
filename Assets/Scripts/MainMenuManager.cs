@@ -17,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
         // Associer les actions aux boutons
         if (playButton != null)
         {
-            playButton.onClick.AddListener(StartGame);
+            playButton.onClick.AddListener(StartGame); 
         }
         
         if (quitButton != null)
