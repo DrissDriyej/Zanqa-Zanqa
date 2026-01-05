@@ -2,20 +2,20 @@ Shader "Custom/RayMarchFogURP"
 {
     Properties
     {
-        _FogColor ("Fog Color", Color) = (0.78, 0.7, 0.58, 1.0)
-        _Density ("Density", Range(0, 0.2)) = 0.03
-        _StepSize ("Step Size", Range(0.5, 5)) = 2.0
-        _MaxDistance ("Max Distance", Range(10, 200)) = 60
-        _NoiseScale ("Noise Scale", Range(0.01, 0.5)) = 0.08
-        _FogHeight ("Fog Height", Range(-50, 100)) = 20
-        _FogFalloff ("Fog Falloff", Range(0.01, 0.5)) = 0.05
+        _FogColor ("Fog Color", Color) = (1.0, 0.8, 0.6, 1.0)
+        _Density ("Density", Range(0, 0.2)) = 0.01
+        _StepSize ("Step Size", Range(0.1, 5)) = 1.5
+        _MaxDistance ("Max Distance", Range(10, 200)) = 80
+        _NoiseScale ("Noise Scale", Range(0.01, 0.5)) = 0.05
+        _FogHeight ("Fog Height", Range(-50, 100)) = 10
+        _FogFalloff ("Fog Falloff", Range(0.01, 0.5)) = 0.1
         
         [Header(Labyrinth Zone No Fog)]
-        _ZoneMinX ("Zone Min X", Float) = -55
-        _ZoneMaxX ("Zone Max X", Float) = 25
-        _ZoneMinZ ("Zone Min Z", Float) = -130
-        _ZoneMaxZ ("Zone Max Z", Float) = -5
-        _ZoneFadeDistance ("Fade Distance", Range(1, 50)) = 10
+        _LabyMinX ("Labyrinth Min X", Float) = -55
+        _LabyMaxX ("Labyrinth Max X", Float) = 25
+        _LabyMinZ ("Labyrinth Min Z", Float) = -130
+        _LabyMaxZ ("Labyrinth Max Z", Float) = -5
+        _LabyFade ("Fade Distance", Range(1, 50)) = 5
         
         [Header(Debug)]
         [Toggle] _DebugMode ("Debug Mode (show mask)", Float) = 0
@@ -53,11 +53,11 @@ Shader "Custom/RayMarchFogURP"
                 float _FogHeight;
                 float _FogFalloff;
                 
-                float _ZoneMinX;
-                float _ZoneMaxX;
-                float _ZoneMinZ;
-                float _ZoneMaxZ;
-                float _ZoneFadeDistance;
+                float _LabyMinX;
+                float _LabyMaxX;
+                float _LabyMinZ;
+                float _LabyMaxZ;
+                float _LabyFade;
                 
                 float _DebugMode;
             CBUFFER_END
@@ -89,7 +89,7 @@ Shader "Custom/RayMarchFogURP"
                 float n00 = lerp(n000, n100, f.x);
                 float n01 = lerp(n001, n101, f.x);
                 float n10 = lerp(n010, n110, f.x);
-                float n11 = lerp(n011, n111, f.x);
+                float n11 = lerp(n011, n111, f.y);
                 
                 return lerp(lerp(n00, n10, f.y), lerp(n01, n11, f.y), f.z);
             }
@@ -109,41 +109,28 @@ Shader "Custom/RayMarchFogURP"
             }
             
             // Check if position is inside labyrinth zone
-            // Returns 0 = inside labyrinth (no fog), 1 = outside (full fog)
-            // Check if position is inside labyrinth zone
-            // Returns 0 = inside labyrinth (no fog), 1 = outside (full fog)
+            // Returns 0 = inside labyrinth (NO FOG), 1 = outside (full fog)
             float getLabyrinthMask(float3 pos)
             {
-                // Check bounds with fade padding
-                float minX = _ZoneMinX + _ZoneFadeDistance;
-                float maxX = _ZoneMaxX - _ZoneFadeDistance;
-                float minZ = _ZoneMinZ + _ZoneFadeDistance;
-                float maxZ = _ZoneMaxZ - _ZoneFadeDistance;
-
-                // Test if fully inside the inner box (secure 0 fog area)
-                if (pos.x > minX && pos.x < maxX && pos.z > minZ && pos.z < maxZ)
-                {
-                    return 0.0;
-                }
-
-                // If not deeply inside, check if we are in the fade margin
-                float distToEdgeX = min(abs(pos.x - _ZoneMinX), abs(pos.x - _ZoneMaxX));
-                float distToEdgeZ = min(abs(pos.z - _ZoneMinZ), abs(pos.z - _ZoneMaxZ));
-                
-                // Are we inside the main bounds at all?
-                bool insideX = (pos.x >= _ZoneMinX) && (pos.x <= _ZoneMaxX);
-                bool insideZ = (pos.z >= _ZoneMinZ) && (pos.z <= _ZoneMaxZ);
+                // Strict check: Are we inside the defined box?
+                bool insideX = (pos.x >= _LabyMinX) && (pos.x <= _LabyMaxX);
+                bool insideZ = (pos.z >= _LabyMinZ) && (pos.z <= _LabyMaxZ);
 
                 if (insideX && insideZ)
                 {
-                    // Inside the transition zone
-                    float distToEdge = min(distToEdgeX, distToEdgeZ);
-                    return saturate(1.0 - distToEdge / _ZoneFadeDistance);
+                    // WE ARE INSIDE: ABSOLUTELY NO FOG
+                    return 0.0;
                 }
 
-                // Outside bounds -> Full fog
-                return 1.0;
-            }
+                // If we are here, we are outside.
+                // Calculate distance to the box for external fade
+                float dx = max(0, max(_LabyMinX - pos.x, pos.x - _LabyMaxX));
+                float dz = max(0, max(_LabyMinZ - pos.z, pos.z - _LabyMaxZ));
+                float distToBox = length(float2(dx, dz));
+
+                // Fade in fog as we move away from the box
+                return saturate(distToBox / _LabyFade);
+            };
 
             struct appdata
             {
@@ -213,48 +200,50 @@ Shader "Custom/RayMarchFogURP"
                     }
                 }
                 
+                // Dithering
+                float dither = frac(sin(dot(uv.xy, float2(12.9898, 78.233))) * 43758.5453);
+                
                 // Ray march
-                float t = 1.0;
+                float t = 1.0 + dither * _StepSize;
                 float transmittance = 1.0;
                 float3 fogAccum = float3(0, 0, 0);
                 
+                // Animation speed for heat effect (scrolling noise upwards)
+                float3 animOffset = float3(0, -_Time.y * 2.0, 0); // Noise moves up = heat rises
+                
                 [loop]
-                for (int step = 0; step < 24; step++)
+                for (int step = 0; step < 32; step++)
                 {
-                    if (t > _MaxDistance || transmittance < 0.02)
+                    if (t > _MaxDistance || transmittance < 0.05)
                         break;
                     
                     float3 pos = rayOrigin + rayDir * t;
                     
-                    // Check if we're in the labyrinth zone (no fog there)
+                    // Check zone mask
                     float labyrinthMask = getLabyrinthMask(pos);
                     
-                    // Only add fog if mask > 0
                     if (labyrinthMask > 0.01)
                     {
-                        // Height-based density
                         float heightFactor = exp(-max(0, pos.y - _FogHeight) * _FogFalloff);
                         
-                        // Noise
-                        float n = fbm(pos * _NoiseScale);
+                        // Animated Noise for Heat Effect
+                        float n = fbm((pos + animOffset) * _NoiseScale);
                         
-                        // Final density (multiplied by labyrinth mask)
-                        float density = _Density * heightFactor * (0.3 + n * 0.7) * labyrinthMask;
+                        float noiseFactor = 0.4 + n * 0.6;
+                        float density = _Density * heightFactor * noiseFactor * labyrinthMask;
                         
                         if (density > 0.0001)
                         {
-                            fogAccum += _FogColor.rgb * density * transmittance * _StepSize;
-                            transmittance *= exp(-density * _StepSize);
+                            float stepAtten = exp(-density * _StepSize);
+                            fogAccum += _FogColor.rgb * (1.0 - stepAtten) * transmittance;
+                            transmittance *= stepAtten;
                         }
                     }
                     
                     t += _StepSize;
                 }
                 
-                // Final blend
-                float3 finalColor = sceneColor.rgb * transmittance + fogAccum;
-                
-                return float4(finalColor, 1.0);
+                return float4(lerp(sceneColor.rgb, fogAccum + sceneColor.rgb * transmittance, 1.0), 1.0);
             }
             ENDHLSL
         }

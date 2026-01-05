@@ -43,6 +43,21 @@ public class DayNightCycle : MonoBehaviour
 
         // Configuration par défaut si non assigné
         if (sunColor == null || sunColor.colorKeys.Length < 2) SetupDefaults();
+        
+        // AUTO-SETUP FIRE LIGHTS
+        // Cherche tous les objets qui s'appellent "Fire lamp" ou qui contiennent ce nom
+        GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        foreach (GameObject go in allObjects)
+        {
+            if (go.name.Contains("Fire lamp") && go.GetComponent<FireLightController>() == null)
+            {
+                // Ajoute le contrôleur qui va créer/booster la lumière
+                FireLightController controller = go.AddComponent<FireLightController>();
+                controller.baseIntensity = 6.0f;  // Beaucoup plus doux (était 15)
+                controller.maxRange = 8.0f;       // Portée réduite (était 10)
+                controller.enableFlicker = true;
+            }
+        }
     }
 
     private void Reset()
