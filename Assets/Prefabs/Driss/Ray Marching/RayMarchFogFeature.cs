@@ -102,12 +102,5 @@ public class RayMarchFogFeature : ScriptableRendererFeature
                 });
             }
         }
-
-        // Fallback for non-RenderGraph (older Unity)
-        [System.Obsolete]
-        public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
-        {
-            // Empty - using RenderGraph
-        }
     }
 }

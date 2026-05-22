@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 /// <summary>
 /// Version simplifiée du script d'interaction avec le personnage pour minimiser les erreurs potentielles.
@@ -73,9 +74,17 @@ public class SimpleCharacterInteraction : MonoBehaviour
         if (isGameWon) return;
         
         CheckPlayerDistance();
-        
-        // Vérifier l'appui sur la touche d'interaction
-        if (isPlayerInRange && Input.GetKeyDown(interactionKey))
+
+        // Vérifier l'appui sur la touche d'interaction (clavier ou gâchette VR)
+        bool vrTrigger = false;
+        var rightHandDevices = new System.Collections.Generic.List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.RightHand, rightHandDevices);
+        if (rightHandDevices.Count > 0)
+        {
+            rightHandDevices[0].TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out vrTrigger);
+        }
+
+        if (isPlayerInRange && (Input.GetKeyDown(interactionKey) || vrTrigger))
         {
             WinGame();
         }
